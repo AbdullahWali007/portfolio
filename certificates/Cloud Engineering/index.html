@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Engineering Certificates | M. Abdullah Wali</title>
+    
+    <link rel="icon" type="image/png" href="../../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE VARIABLES & RESET --- */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ebebeb;
+            --text-dim: #777777;
+            --accent: #1a1a1a;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- TACTILE FILM NOISE --- */
+        .film-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 12px; height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: fixed;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.active {
+            transform: translate(-50%, -50%) scale(5);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+        .nav-logo, .nav-links a {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-links a {
+            border-bottom: 1px solid rgba(235, 235, 235, 0.3);
+            padding-bottom: 2px;
+        }
+        .nav-links a:hover {
+            opacity: 0.7;
+            border-bottom: 1px solid var(--text-main);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            padding: 0 4rem;
+            position: relative;
+            padding-top: 15vh;
+        }
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+        }
+        .hero-content h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 6vw, 8rem);
+            font-weight: 400;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content h1 span {
+            display: block;
+            overflow: hidden;
+        }
+        .hero-content h1 span i {
+            display: inline-block;
+            font-style: normal;
+            transform: translateY(100%);
+        }
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero-image-abstract {
+            position: absolute;
+            left: 70%; top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40vw; height: 40vh;
+            background: radial-gradient(circle at center, #111 0%, #050505 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* --- CERTIFICATES GRID --- */
+        .certificates {
+            padding: 5vh 4rem 15vh 4rem;
+        }
+        .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 3rem;
+}
+        
+        .cert-card {
+            background: var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border 0.4s ease;
+        }
+        .cert-card:hover {
+            transform: translateY(-8px);
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cert-image-wrapper {
+            width: 100%;
+            aspect-ratio: 1.414 / 1; /* Approximate standard certificate ratio */
+            background: #1a1a1a;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .cert-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            filter: grayscale(40%);
+        }
+        .cert-card:hover .cert-image-wrapper img {
+            opacity: 1;
+            transform: scale(1.03);
+            filter: grayscale(0%);
+        }
+        
+        .cert-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .cert-info h3 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--text-main);
+            font-weight: 400;
+            line-height: 1.2;
+        }
+        .cert-info p {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-dim);
+        }
+
+        /* RESPONSIVENESS */
+        @media (max-width: 1024px) {
+            .hero { padding-top: 20vh; min-height: auto; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; }
+            .hero { padding-top: 150px; padding-left: 2rem; padding-right: 2rem; }
+            .certificates { padding-left: 2rem; padding-right: 2rem; }
+            .cert-grid { gap: 2rem; }
+
+            /* Disable custom cursor on mobile */
+            .cursor {
+                display: none !important;
+            }
+            
+            /* Restore the standard hardware cursor */
+            * {
+                cursor: auto !important; 
+            }
+        }
+        @media (max-width: 480px) {
+    .hero-content h1 { font-size: 2.5rem; }
+    .cert-info h3 { font-size: 1.4rem; }
+    
+    /* New additions to prevent overflow on very small phones */
+    nav, .hero, .certificates { 
+        padding-left: 1.25rem; 
+        padding-right: 1.25rem; 
+    }
+    .cert-grid { 
+        gap: 1.5rem; 
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="film-noise"></div>
+    <div class="cursor"></div>
+
+    <nav>
+        <div class="nav-logo">M. Abdullah Wali</div>
+        <div class="nav-links">
+            <a href="../../index.html#archive" class="hover-target">&larr; Return to Portfolio</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-image-abstract"></div>
+        <div class="hero-content">
+            <h1>
+                <span><i>Cloud Engineering</i></span>
+                <span><i>Certifications.</i></span>
+            </h1>
+            <div class="hero-sub">
+                <p>An archive of specialized achievements detailing expertise in building, scaling, and managing cloud infrastructure, data engineering pipelines, and machine learning operations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="certificates">
+        <div class="cert-grid">
+            
+            <!-- Certificate 1 -->
+            <a href="Building Cloud Computing at scale.pdf" target="_blank" class="cert-card hover-target">
+                <div class="cert-image-wrapper">
+                    <img src="Building Cloud Computing at scale.webp" alt="Building Cloud Computing at scale">
+                </div>
+                <div class="cert-info">
+                    <p>Certificate of Completion</p>
+                    <h3>Building Cloud Computing at scale</h3>
+                </div>
+            </a>
+
+            <!-- Certificate 2 -->
+            <a href="Cloud Computing Foundations.pdf" target="_blank" class="cert-card hover-target">
+                <div class="cert-image-wrapper">
+                    <img src="Cloud Computing Foundations.webp" alt="Cloud Computing Foundations">
+                </div>
+                <div class="cert-info">
+                    <p>Certificate of Completion</p>
+                    <h3>Cloud Computing Foundations</h3>
+                </div>
+            </a>
+
+            <!-- Certificate 3 -->
+            <a href="Cloud Data Engineering.pdf" target="_blank" class="cert-card hover-target">
+                <div class="cert-image-wrapper">
+                    <img src="Cloud Data Engineering.webp" alt="Cloud Data Engineering">
+                </div>
+                <div class="cert-info">
+                    <p>Certificate of Completion</p>
+                    <h3>Cloud Data Engineering</h3>
+                </div>
+            </a>
+
+            <!-- Certificate 4 -->
+            <a href="Cloud Machine Learning Engineering and MLOps.pdf" target="_blank" class="cert-card hover-target">
+                <div class="cert-image-wrapper">
+                    <img src="Cloud Machine Learning Engineering and MLOps.webp" alt="Cloud Machine Learning Engineering and MLOps">
+                </div>
+                <div class="cert-info">
+                    <p>Certificate of Completion</p>
+                    <h3>Cloud Machine Learning Engineering and MLOps</h3>
+                </div>
+            </a>
+
+            <!-- Certificate 5 -->
+            <a href="Cloud Virtualization, Containers and APIs.pdf" target="_blank" class="cert-card hover-target">
+                <div class="cert-image-wrapper">
+                    <img src="Cloud Virtualization, Containers and APIs.webp" alt="Cloud Virtualization, Containers and APIs">
+                </div>
+                <div class="cert-info">
+                    <p>Certificate of Completion</p>
+                    <h3>Cloud Virtualization, Containers and APIs</h3>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <script>
+        // SMOOTH SCROLL (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // CUSTOM CURSOR
+        const cursor = document.querySelector('.cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // HERO ENTRANCE ANIMATION
+        const tl = gsap.timeline();
+        
+        tl.to('.hero-content h1 span i', { y: 0, duration: 1.2, stagger: 0.2, ease: "power4.out", delay: 0.2 })
+          .to('.hero-sub', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+          .to('.hero-image-abstract', { opacity: 0.4, duration: 2, ease: "power2.out" }, "-=1.5");
+
+        // GRID ITEMS STAGGERED ENTRANCE
+        gsap.from('.cert-card', {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.8
+        });
+    </script>
+</body>
+</html>
