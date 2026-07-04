@@ -592,27 +592,33 @@
         }
 
         /* --- SKILLS TRACK --- */
-        .skills {
-            padding: 15vh 0;
-            overflow: hidden;
-            background: var(--text-main);
-            color: var(--bg-color);
-        }
-        .skills-track {
-            display: flex;
-            white-space: nowrap;
-            font-family: var(--font-sans);
-            font-size: 8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-        .track-left {
-            transform: translateX(0);
-        }
-        .track-right {
-            transform: translateX(-50%);
-        }
+.skills {
+    padding: 15vh 0;
+    overflow: hidden;
+    background: var(--text-main);
+    color: var(--bg-color);
+    width: 100vw; /* Ensures the wrapper spans the full viewport */
+}
+
+.skills-track {
+    display: flex;
+    width: max-content; /* This prevents the text from being cut off */
+    white-space: nowrap;
+    font-family: var(--font-sans);
+    font-size: 8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.track-left {
+    transform: translateX(0);
+}
+
+.track-right {
+    /* Starts with a negative offset so it has room to scroll right */
+    transform: translateX(-50%); 
+}
 
         /* --- CERTIFICATES: THE ARCHIVE --- */
         .archive {
@@ -1065,15 +1071,19 @@
     </section>
 
     <section class="skills" id="skills">
-        <div class="skills-track track-left">
-            SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING —
-            SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING —
-        </div>
-        <div class="skills-track track-right">
-            DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS —
-            DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS —
-        </div>
-    </section>
+    <div class="skills-track track-left">
+        <span>SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING — </span>
+        <span>SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING — </span>
+        <span>SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING — </span>
+        <span>SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING — </span>
+    </div>
+    <div class="skills-track track-right">
+        <span>DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS — </span>
+        <span>DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS — </span>
+        <span>DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS — </span>
+        <span>DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS — </span>
+    </div>
+</section>
 
     <section class="archive" id="archive">
         <div class="projects-header" style="padding:0; margin-bottom: 2rem;">The Archive (Certifications) • Click to view Certificates</div>
@@ -1268,17 +1278,28 @@
             });
         });
 
-        // KINETIC TYPOGRAPHY (Skills)
-        gsap.to('.track-left', {
-            xPercent: -20,
-            ease: "none",
-            scrollTrigger: { trigger: ".skills", start: "top bottom", end: "bottom top", scrub: 1 }
-        });
-        gsap.to('.track-right', {
-            xPercent: 20,
-            ease: "none",
-            scrollTrigger: { trigger: ".skills", start: "top bottom", end: "bottom top", scrub: 1 }
-        });
+// KINETIC TYPOGRAPHY (Skills)
+gsap.to('.track-left', {
+    xPercent: -20,
+    ease: "none",
+    scrollTrigger: { 
+        trigger: ".track-left", 
+        start: "top bottom", 
+        end: "bottom top", 
+        scrub: 1 
+    }
+});
+
+gsap.to('.track-right', {
+    xPercent: -30, // Changed from 20 to -30 so the travel distance is exactly 20%
+    ease: "none",
+    scrollTrigger: { 
+        trigger: ".track-right", 
+        start: "top bottom", 
+        end: "bottom top", 
+        scrub: 1 
+    }
+});
 
         // ARCHIVE LIST STAGGER
         gsap.from('.archive-item', {
