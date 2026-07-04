@@ -6,7 +6,7 @@
     <title>M. Abdullah Wali | Portfolio</title>
 
     <link rel="icon" type="image/png" href="favicon.png">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
             --accent: #1a1a1a;
             --font-serif: 'Cormorant Garamond', serif;
             --font-sans: 'Manrope', sans-serif;
-            
+
             /* --- PANDA VARIABLES --- */
             --panda-red: #d4532a;
             --panda-dark: #8b3a1a;
@@ -35,7 +35,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; 
+            cursor: none;
         }
 
         body {
@@ -49,7 +49,10 @@
         /* --- TACTILE FILM NOISE (FIXED: INLINE SVG DATA URI) --- */
         .film-noise {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 9999;
             opacity: 0.04;
@@ -58,11 +61,13 @@
 
         /* --- CUSTOM CURSOR --- */
         .cursor {
-            width: 12px; height: 12px;
+            width: 12px;
+            height: 12px;
             background: var(--text-main);
             border-radius: 50%;
             position: fixed;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             pointer-events: none;
             z-index: 10000;
             mix-blend-mode: difference;
@@ -71,8 +76,8 @@
         }
         .cursor.active {
             transform: translate(-50%, -50%) scale(5);
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         .project-card a.project-inner {
             color: inherit;
@@ -88,7 +93,7 @@
             pointer-events: none;
             transform: translate(-50%, -50%);
             transition: left 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        top 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+                top 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
             will-change: left, top;
         }
 
@@ -105,7 +110,7 @@
             color: var(--bubble-text);
             padding: 0.85rem 1.3rem;
             border-radius: 1.4rem;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             font-weight: 600;
             font-size: 0.95rem;
             font-family: var(--font-sans);
@@ -136,17 +141,36 @@
             animation: bubblePopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         @keyframes bubbleFloat {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            30% { transform: translateX(-50%) translateY(-7px); }
-            60% { transform: translateX(-50%) translateY(-3px); }
-            85% { transform: translateX(-50%) translateY(-6px); }
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            30% {
+                transform: translateX(-50%) translateY(-7px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-3px);
+            }
+            85% {
+                transform: translateX(-50%) translateY(-6px);
+            }
         }
         @keyframes bubblePopIn {
-            0% { opacity: 0.5; transform: translateX(-50%) scale(0.75); }
-            60% { opacity: 1; transform: translateX(-50%) scale(1.06); }
-            100% { opacity: 1; transform: translateX(-50%) scale(1); }
+            0% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(0.75);
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.06);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
         }
 
+        /* --- PANDA WRAPPER (GIF VERSION) --- */
         .panda-wrapper {
             position: relative;
             width: 100px;
@@ -171,232 +195,122 @@
             animation: shadowPulse 2.5s ease-in-out infinite;
         }
         @keyframes shadowPulse {
-            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.7; }
-            50% { transform: translateX(-50%) scale(0.75); opacity: 0.4; }
+            0%,
+            100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateX(-50%) scale(0.75);
+                opacity: 0.4;
+            }
         }
 
-        .panda-tail {
-            position: absolute;
-            bottom: 40px;
-            left: -28px;
-            width: 50px;
-            height: 70px;
-            background: repeating-linear-gradient(-20deg,
-                    var(--panda-red) 0px, var(--panda-red) 10px,
-                    var(--panda-dark) 10px, var(--panda-dark) 16px,
-                    #f0c5a8 16px, #f0c5a8 20px,
-                    var(--panda-red) 20px, var(--panda-red) 30px);
-            border-radius: 50% 50% 45% 45%;
-            transform: rotate(-25deg);
-            z-index: 0;
-            animation: tailWag 3.5s ease-in-out infinite;
-            transform-origin: top right;
-        }
-        @keyframes tailWag {
-            0%, 100% { transform: rotate(-25deg); }
-            25% { transform: rotate(-18deg); }
-            50% { transform: rotate(-30deg); }
-            75% { transform: rotate(-20deg); }
-        }
-
-        .panda-body {
+        /* --- PANDA GIF --- */
+        .panda-gif {
             position: absolute;
             bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 82px;
-            height: 72px;
-            background: radial-gradient(ellipse at 50% 35%, #e8784a 0%, var(--panda-red) 55%, #b84320 100%);
-            border-radius: 50% 50% 48% 48%;
-            z-index: 2;
-            box-shadow: inset 0 -8px 16px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .panda-belly {
-            position: absolute;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 48px;
-            height: 38px;
-            background: var(--panda-cream);
-            border-radius: 50%;
-            z-index: 3;
-            opacity: 0.85;
-        }
-
-        .panda-head {
-            position: absolute;
-            bottom: 55px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 68px;
-            height: 62px;
-            background: radial-gradient(ellipse at 50% 30%, #f0906a 0%, var(--panda-red) 60%, #b84320 100%);
-            border-radius: 50%;
-            z-index: 4;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-        .panda-ear {
-            position: absolute;
-            width: 22px;
-            height: 24px;
-            background: var(--panda-dark);
-            border-radius: 50% 50% 30% 30%;
-            z-index: 3;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .panda-ear::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 14px;
-            background: #f5e0d0;
-            border-radius: 50% 50% 30% 30%;
-            top: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .panda-ear-left { bottom: 92px; left: 12px; }
-        .panda-ear-right { bottom: 92px; right: 12px; }
-
-        .panda-face {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 44px;
-            height: 32px;
-            background: #fdf3ea;
-            border-radius: 50%;
+            width: 90px;
+            height: 110px;
+            object-fit: contain;
             z-index: 5;
+            image-rendering: auto;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
         }
-        .panda-eye-patch {
-            position: absolute;
-            width: 16px;
-            height: 13px;
-            background: var(--panda-dark);
-            border-radius: 50%;
-            z-index: 6;
-            bottom: 68px;
-        }
-        .panda-eye-patch-left { left: 22px; }
-        .panda-eye-patch-right { right: 22px; }
-        
-        .panda-eye {
-            position: absolute;
-            width: 7px;
-            height: 8px;
-            background: #111;
-            border-radius: 50%;
-            z-index: 7;
-            bottom: 70px;
-        }
-        .panda-eye::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #fff;
-            border-radius: 50%;
-            top: 1px;
-            left: 2px;
-        }
-        .panda-eye-left { left: 27px; }
-        .panda-eye-right { right: 27px; }
-        
-        .panda-nose {
-            position: absolute;
-            bottom: 63px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: 7px;
-            background: var(--panda-nose);
-            border-radius: 50%;
-            z-index: 8;
-        }
-        .panda-mouth {
-            position: absolute;
-            bottom: 56px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 5px;
-            border-bottom: 2px solid #5c3a2a;
-            border-radius: 0 0 50% 50%;
-            z-index: 8;
-        }
-        .panda-paw {
-            position: absolute;
-            bottom: 2px;
-            width: 22px;
-            height: 16px;
-            background: var(--panda-dark);
-            border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-        }
-        .panda-paw-left { left: 18px; }
-        .panda-paw-right { right: 18px; }
-        
-        .panda-blush {
-            position: absolute;
-            width: 10px;
-            height: 6px;
-            background: rgba(255, 150, 130, 0.6);
-            border-radius: 50%;
-            z-index: 6;
-            bottom: 65px;
-        }
-        .panda-blush-left { left: 18px; }
-        .panda-blush-right { right: 18px; }
 
         @keyframes pandaIdleBounce {
-            0%, 100% { transform: translateY(0); }
-            20% { transform: translateY(-10px); }
-            40% { transform: translateY(-3px); }
-            60% { transform: translateY(-8px); }
-            80% { transform: translateY(-1px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            20% {
+                transform: translateY(-10px);
+            }
+            40% {
+                transform: translateY(-3px);
+            }
+            60% {
+                transform: translateY(-8px);
+            }
+            80% {
+                transform: translateY(-1px);
+            }
         }
         @keyframes pandaIdleBounceRight {
-            0%, 100% { transform: scaleX(-1) translateY(0); }
-            20% { transform: scaleX(-1) translateY(-10px); }
-            40% { transform: scaleX(-1) translateY(-3px); }
-            60% { transform: scaleX(-1) translateY(-8px); }
-            80% { transform: scaleX(-1) translateY(-1px); }
+            0%,
+            100% {
+                transform: scaleX(-1) translateY(0);
+            }
+            20% {
+                transform: scaleX(-1) translateY(-10px);
+            }
+            40% {
+                transform: scaleX(-1) translateY(-3px);
+            }
+            60% {
+                transform: scaleX(-1) translateY(-8px);
+            }
+            80% {
+                transform: scaleX(-1) translateY(-1px);
+            }
         }
         .panda-wrapper.hop {
             animation: pandaHop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         @keyframes pandaHop {
-            0% { transform: translateY(0) scaleY(1) scaleX(1); }
-            25% { transform: translateY(-18px) scaleY(0.8) scaleX(1.15); }
-            50% { transform: translateY(-22px) scaleY(1.05) scaleX(0.95); }
-            75% { transform: translateY(-6px) scaleY(0.9) scaleX(1.08); }
-            100% { transform: translateY(0) scaleY(1) scaleX(1); }
+            0% {
+                transform: translateY(0) scaleY(1) scaleX(1);
+            }
+            25% {
+                transform: translateY(-18px) scaleY(0.8) scaleX(1.15);
+            }
+            50% {
+                transform: translateY(-22px) scaleY(1.05) scaleX(0.95);
+            }
+            75% {
+                transform: translateY(-6px) scaleY(0.9) scaleX(1.08);
+            }
+            100% {
+                transform: translateY(0) scaleY(1) scaleX(1);
+            }
         }
         .panda-wrapper.face-right.hop {
             animation: pandaHopRight 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         @keyframes pandaHopRight {
-            0% { transform: scaleX(-1) translateY(0) scaleY(1); }
-            25% { transform: scaleX(-1) translateY(-18px) scaleY(0.8); }
-            50% { transform: scaleX(-1) translateY(-22px) scaleY(1.05); }
-            75% { transform: scaleX(-1) translateY(-6px) scaleY(0.9); }
-            100% { transform: scaleX(-1) translateY(0) scaleY(1); }
+            0% {
+                transform: scaleX(-1) translateY(0) scaleY(1);
+            }
+            25% {
+                transform: scaleX(-1) translateY(-18px) scaleY(0.8);
+            }
+            50% {
+                transform: scaleX(-1) translateY(-22px) scaleY(1.05);
+            }
+            75% {
+                transform: scaleX(-1) translateY(-6px) scaleY(0.9);
+            }
+            100% {
+                transform: scaleX(-1) translateY(0) scaleY(1);
+            }
         }
 
         /* --- NAVIGATION --- */
         nav {
             position: fixed;
-            top: 0; width: 100%;
+            top: 0;
+            width: 100%;
             padding: 2rem 4rem;
             display: flex;
             justify-content: space-between;
             z-index: 100;
             mix-blend-mode: difference;
         }
-        .nav-logo, .nav-links a {
+        .nav-logo,
+        .nav-links a {
             font-family: var(--font-sans);
             font-size: 0.85rem;
             text-transform: uppercase;
@@ -442,18 +356,18 @@
             opacity: 0;
             transform: translateY(20px);
         }
-        
+
         /* --- CV BUTTON --- */
         .btn-cv {
             display: inline-block;
             margin-top: 2rem;
             padding: 1rem 2.5rem;
-            background-color: var(--text-main); 
-            color: var(--bg-color); 
-            border-radius: 50px; 
-            text-decoration: none; 
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            border-radius: 50px;
+            text-decoration: none;
             font-family: var(--font-sans);
-            font-weight: 600; 
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.15em;
             font-size: 0.85rem;
@@ -461,11 +375,11 @@
         }
 
         .btn-cv:hover {
-            transform: translateY(-4px); 
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15); 
-            background-color: #ffffff; 
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15);
+            background-color: #ffffff;
         }
-        
+
         .hero-profile-container {
             width: 30vw;
             height: 30vw;
@@ -475,16 +389,16 @@
             overflow: hidden;
             position: relative;
             z-index: 2;
-            border: 1px solid rgba(255,255,255,0.15);
-            opacity: 0; 
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            opacity: 0;
             transform: scale(0.9);
-            box-shadow: 0 0 40px rgba(255,255,255,0.05);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
         }
         .profile-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%) contrast(1.1); 
+            filter: grayscale(100%) contrast(1.1);
             transition: filter 0.6s ease, transform 0.6s ease;
         }
         .hero-profile-container:hover .profile-img {
@@ -494,9 +408,11 @@
 
         .hero-image-abstract {
             position: absolute;
-            left: 50%; top: 50%;
+            left: 50%;
+            top: 50%;
             transform: translate(-50%, -50%);
-            width: 50vw; height: 50vh;
+            width: 50vw;
+            height: 50vh;
             background: radial-gradient(circle at center, #111 0%, #050505 70%);
             border-radius: 50%;
             filter: blur(50px);
@@ -530,14 +446,15 @@
             padding: 10vh 0;
             position: relative;
         }
-        .projects-header, .tech-header {
+        .projects-header,
+        .tech-header {
             padding: 0 4rem;
             margin-bottom: 5rem;
             font-family: var(--font-sans);
             text-transform: uppercase;
             letter-spacing: 0.2em;
         }
-        
+
         /* Desktop Project Cards */
         .project-card {
             height: 100vh;
@@ -563,8 +480,10 @@
         }
         .project-inner img {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             opacity: 0.4;
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -609,7 +528,7 @@
             scroll-snap-type: x mandatory;
             gap: 1.5rem;
             padding: 0 2rem 2rem 2rem;
-            scrollbar-width: none; 
+            scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
         }
@@ -632,7 +551,7 @@
             width: 100%;
             height: 250px;
             object-fit: cover;
-            object-position: center; 
+            object-position: center;
         }
         .mobile-card-info {
             padding: 1.5rem;
@@ -688,15 +607,19 @@
             text-transform: uppercase;
             line-height: 1;
         }
-        .track-left { transform: translateX(0); }
-        .track-right { transform: translateX(-50%); }
+        .track-left {
+            transform: translateX(0);
+        }
+        .track-right {
+            transform: translateX(-50%);
+        }
 
         /* --- CERTIFICATES: THE ARCHIVE --- */
         .archive {
             padding: 20vh 4rem;
         }
         .archive-item {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding: 3rem 0;
             display: flex;
             justify-content: space-between;
@@ -713,9 +636,11 @@
         .archive-item::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(255,255,255,0.02);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.02);
             transform: scaleY(0);
             transform-origin: bottom;
             transition: transform 0.5s ease;
@@ -768,7 +693,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* DYNAMIC ICON COLORING (Ensures 100% Reliability) */
         .skill-badge img {
             width: 18px;
             height: 18px;
@@ -787,7 +711,6 @@
             opacity: 1;
         }
 
-        /* --- SHOW ALL BUTTON --- */
         .skill-badge.hidden {
             display: none !important;
         }
@@ -799,22 +722,22 @@
         .btn-show-all {
             display: inline-block;
             padding: 1rem 2.5rem;
-            background-color: var(--text-main); 
-            color: var(--bg-color); 
-            border-radius: 50px; 
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            border-radius: 50px;
             font-family: var(--font-sans);
-            font-weight: 600; 
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.15em;
             font-size: 0.85rem;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border: none;
-            cursor: none; /* Retains your custom cursor */
+            cursor: none;
         }
         .btn-show-all:hover {
-            transform: translateY(-4px); 
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15); 
-            background-color: #ffffff; 
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15);
+            background-color: #ffffff;
         }
 
         /* --- FOOTER --- */
@@ -841,7 +764,7 @@
             border-bottom: 1px solid var(--text-main);
             padding-bottom: 5px;
         }
-        
+
         .social-links {
             margin-top: 4rem;
             display: flex;
@@ -858,68 +781,127 @@
 
         /* RESPONSIVENESS */
         @media (max-width: 1024px) {
-            .hero { 
-                height: auto; 
-                min-height: 100vh; 
-                padding-top: 140px; 
-                padding-bottom: 60px; 
-                flex-direction: column-reverse; 
-                justify-content: center; 
-                text-align: center; 
-                gap: 4rem; 
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding-top: 140px;
+                padding-bottom: 60px;
+                flex-direction: column-reverse;
+                justify-content: center;
+                text-align: center;
+                gap: 4rem;
             }
-            .hero-profile-container { width: 50vw; height: 50vw; }
-            .hero-content h1 span i { transform: translateY(0); }
-            .hero-sub { margin: 2rem auto 0 auto; }
+            .hero-profile-container {
+                width: 50vw;
+                height: 50vw;
+            }
+            .hero-content h1 span i {
+                transform: translateY(0);
+            }
+            .hero-sub {
+                margin: 2rem auto 0 auto;
+            }
         }
         @media (max-width: 768px) {
-            nav { padding: 1.5rem 2rem; }
-            /* Disable custom cursor on mobile */
-    .cursor {
-        display: none !important;
-    }
-    
-    /* Bring back the default system cursor for all elements */
-    * {
-        cursor: auto !important; 
-    }
-            .hero { padding-top: 120px; padding-bottom: 40px; padding-left: 2rem; padding-right: 2rem; }
-            .story, .archive, .tech-stack { padding-left: 2rem; padding-right: 2rem; }
-            
-            /* Toggle Desktop/Mobile Projects View */
-            .desktop-projects { display: none !important; }
-            .mobile-projects-wrapper { display: block; }
-            .mobile-projects-header { padding: 0 2rem; }
-            
-            .project-inner { 
-                padding: 2rem; 
+            nav {
+                padding: 1.5rem 2rem;
+            }
+            .cursor {
+                display: none !important;
+            }
+            * {
+                cursor: auto !important;
+            }
+            .hero {
+                padding-top: 120px;
+                padding-bottom: 40px;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+            .story,
+            .archive,
+            .tech-stack {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .desktop-projects {
+                display: none !important;
+            }
+            .mobile-projects-wrapper {
+                display: block;
+            }
+            .mobile-projects-header {
+                padding: 0 2rem;
+            }
+
+            .project-inner {
+                padding: 2rem;
                 height: 100%;
             }
             .project-inner img {
-                object-position: 25% center; 
+                object-position: 25% center;
             }
-            .project-info h2 { font-size: clamp(2rem, 8vw, 3rem); word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+            .project-info h2 {
+                font-size: clamp(2rem, 8vw, 3rem);
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
             .project-card {
-                height: 75vh; 
+                height: 75vh;
             }
-            .archive-title { font-size: 1.8rem; }
-            
-            .skills-track { font-size: clamp(2.5rem, 8vw, 4rem); }
-            .skill-badge { padding: 0.6rem 1rem; font-size: 0.75rem; gap: 0.4rem; }
-            .skill-badge img { width: 14px; height: 14px; }
-            .skills-grid { justify-content: center; }
-            
-            .mascot-container { display: none !important; }
-            
-            .social-links { gap: 1.5rem; margin-top: 3rem; }
+            .archive-title {
+                font-size: 1.8rem;
+            }
+
+            .skills-track {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+            .skill-badge {
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+                gap: 0.4rem;
+            }
+            .skill-badge img {
+                width: 14px;
+                height: 14px;
+            }
+            .skills-grid {
+                justify-content: center;
+            }
+
+            .mascot-container {
+                display: none !important;
+            }
+
+            .social-links {
+                gap: 1.5rem;
+                margin-top: 3rem;
+            }
         }
         @media (max-width: 480px) {
-            .hero-profile-container { width: 65vw; height: 65vw; }
-            .project-inner { padding: 1.5rem; }
-            .project-info h2 { font-size: 1.8rem; line-height: 1.1; }
-            .project-info p { font-size: 0.8rem; }
-            .skills-track { font-size: 2rem; }
-            .social-links { flex-direction: column; gap: 1rem; }
+            .hero-profile-container {
+                width: 65vw;
+                height: 65vw;
+            }
+            .project-inner {
+                padding: 1.5rem;
+            }
+            .project-info h2 {
+                font-size: 1.8rem;
+                line-height: 1.1;
+            }
+            .project-info p {
+                font-size: 0.8rem;
+            }
+            .skills-track {
+                font-size: 2rem;
+            }
+            .social-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -934,23 +916,8 @@
         </div>
         <div class="panda-wrapper" id="pandaWrapper">
             <div class="panda-shadow"></div>
-            <div class="panda-tail"></div>
-            <div class="panda-ear panda-ear-left"></div>
-            <div class="panda-ear panda-ear-right"></div>
-            <div class="panda-head"></div>
-            <div class="panda-body"></div>
-            <div class="panda-belly"></div>
-            <div class="panda-face"></div>
-            <div class="panda-eye-patch panda-eye-patch-left"></div>
-            <div class="panda-eye-patch panda-eye-patch-right"></div>
-            <div class="panda-eye panda-eye-left"></div>
-            <div class="panda-eye panda-eye-right"></div>
-            <div class="panda-nose"></div>
-            <div class="panda-mouth"></div>
-            <div class="panda-blush panda-blush-left"></div>
-            <div class="panda-blush panda-blush-right"></div>
-            <div class="panda-paw panda-paw-left"></div>
-            <div class="panda-paw panda-paw-right"></div>
+            <!-- CUSTOM GIF: Replace giphy.gif with your own file -->
+            <img src="giphy.gif" alt="Panda" class="panda-gif" id="pandaGif">
         </div>
     </div>
 
@@ -963,7 +930,7 @@
 
     <section class="hero" id="hero">
         <div class="hero-image-abstract"></div>
-        
+
         <div class="hero-content">
             <h1>
                 <span><i>Welcome to</i></span>
@@ -971,7 +938,7 @@
             </h1>
             <div class="hero-sub">
                 <p>I am a Software Engineer, AI/ML Engineer, Data Scientist and creator. I engineer intelligent systems, MLOps pipelines, and craft and deploy digital experiences that feel human.</p>
-            <a href="Muhammad Abdullah Wali-CV.pdf" class="btn-cv hover-target" download target="_blank">Download My CV</a>
+                <a href="Muhammad Abdullah Wali-CV.pdf" class="btn-cv hover-target" download target="_blank">Download My CV</a>
             </div>
         </div>
 
@@ -992,15 +959,25 @@
         <!-- DESKTOP VIEW -->
         <div class="desktop-projects">
             <div class="projects-header">Selected Exhibitions</div>
-            
+
             <div class="project-card">
-                <div class="project-inner hover-target">
+                <a href="projects/neural code search/neural-code.html" class="project-inner hover-target">
                     <img src="neural.webp" alt="Search Engine">
                     <div class="project-info">
                         <p>Machine Learning • NLP</p>
                         <h2>Neural Code Search Engine</h2>
                     </div>
-                </div>
+                </a>
+            </div>
+
+            <div class="project-card">
+                <a href="projects/RAG/rag.html" class="project-inner hover-target">
+                    <img src="rag.jpg" alt="Extraordinary RAG">
+                    <div class="project-info">
+                        <p>Python • AI • LLMs</p>
+                        <h2>Extraordinary RAG</h2>
+                    </div>
+                </a>
             </div>
 
             <div class="project-card">
@@ -1014,15 +991,15 @@
             </div>
 
             <div class="project-card">
-                <div class="project-inner hover-target">
+                <a href="projects/SMS/sms.html" class="project-inner hover-target">
                     <img src="school-management-system.webp" alt="SMS">
                     <div class="project-info">
                         <p>Python • Software Development • 5+ Clients</p>
                         <h2>School Management System</h2>
                     </div>
-                </div>
+                </a>
             </div>
-            
+
             <div class="project-card">
                 <a href="https://github.com/AbdullahWali007/" target="_blank" rel="noopener noreferrer" class="project-inner hover-target" style="text-decoration: none;">
                     <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2564&auto=format&fit=crop" alt="GitHub Ecosystem">
@@ -1037,15 +1014,24 @@
         <!-- MOBILE VIEW -->
         <div class="mobile-projects-wrapper">
             <div class="mobile-projects-header">Selected Exhibitions</div>
-            
+
             <div class="mobile-carousel">
-                <div class="mobile-card hover-target">
+
+                <a href="projects/neural code search/neural-code.html" class="mobile-card hover-target">
                     <img src="neural.webp" alt="Search Engine" class="mobile-card-img" onerror="this.src='https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2670&auto=format&fit=crop'">
                     <div class="mobile-card-info">
                         <p>Machine Learning • NLP</p>
                         <h2>Neural Code Search Engine</h2>
                     </div>
-                </div>
+                </a>
+
+                <a href="projects/RAG/rag.html" class="mobile-card hover-target">
+                    <img src="rag.jpg" alt="Extraordinary RAG" class="mobile-card-img" onerror="this.src='https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=2574&auto=format&fit=crop'">
+                    <div class="mobile-card-info">
+                        <p>Python • AI • LLMs</p>
+                        <h2>Extraordinary RAG</h2>
+                    </div>
+                </a>
 
                 <div class="mobile-card hover-target">
                     <img src="video-dubbing.webp" alt="video-dubbing" class="mobile-card-img" onerror="this.src='https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=2574&auto=format&fit=crop'">
@@ -1055,13 +1041,13 @@
                     </div>
                 </div>
 
-                <div class="mobile-card hover-target">
+                <a href="projects/SMS/sms.html" class="mobile-card hover-target">
                     <img src="school-management-system.webp" alt="SMS" class="mobile-card-img" onerror="this.src='https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2664&auto=format&fit=crop'">
                     <div class="mobile-card-info">
                         <p>Python • Software Development • 5+ Clients</p>
                         <h2>School Management System</h2>
                     </div>
-                </div>
+                </a>
 
                 <a href="https://github.com/AbdullahWali007/" target="_blank" rel="noopener noreferrer" class="mobile-card hover-target">
                     <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2564&auto=format&fit=crop" alt="GitHub Ecosystem" class="mobile-card-img">
@@ -1080,18 +1066,18 @@
 
     <section class="skills" id="skills">
         <div class="skills-track track-left">
-            SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING — 
+            SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING —
             SOFTWARE ENGINEERING — MACHINE LEARNING — MERN STACK — CLOUD COMPUTING —
         </div>
         <div class="skills-track track-right">
-            DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS — 
+            DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS —
             DEEP LEARNING — DATA SCIENCE — CREATIVE CODING — MLOPS —
         </div>
     </section>
 
     <section class="archive" id="archive">
         <div class="projects-header" style="padding:0; margin-bottom: 2rem;">The Archive (Certifications) • Click to view Certificates</div>
-        
+
         <a href="certificates/Cloud Engineering/index.html" class="archive-item hover-target">
             <div class="archive-title">Cloud Engineering</div>
             <div class="archive-meta">2025</div>
@@ -1133,7 +1119,7 @@
             <div class="skill-badge hover-target"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/cplusplus.svg" alt="C++">C++</div>
             <div class="skill-badge hover-target"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/css3.svg" alt="CSS3">CSS3</div>
             <div class="skill-badge hover-target"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: currentColor;"><path d="M2 13.5c0 3.6 2.9 6.5 6.5 6.5h5c3.6 0 6.5-2.9 6.5-6.5v-1.5H2v1.5zm16.5-5.5h-11v2h11v-2zm-13-4h15v2h-15v-2zM4 10h12v2H4v-2zm2-4h12v2H6V6z"/></svg>Java</div>
- 
+
             <div class="skill-badge hover-target"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/html5.svg" alt="HTML5">HTML5</div>
             <div class="skill-badge hover-target"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/javascript.svg" alt="JavaScript">JavaScript</div>
             <div class="skill-badge hover-target"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/markdown.svg" alt="Markdown">Markdown</div>
@@ -1198,7 +1184,7 @@
     <footer>
         <h2>Let's build<br>the future.</h2>
         <a href="mailto:abdullah.wali004@gmail.com" class="hover-target">Mail Me</a>
-        
+
         <div class="social-links">
             <a href="https://github.com/AbdullahWali007/" target="_blank" rel="noopener noreferrer" class="hover-target">GitHub</a>
             <a href="https://www.linkedin.com/in/muhammad-abdullah-wali-579b8a2b8/" target="_blank" rel="noopener noreferrer" class="hover-target">LinkedIn</a>
@@ -1208,9 +1194,12 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
+    </script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js">
+    </script>
 
     <script>
         // SMOOTH SCROLL (Lenis)
@@ -1249,16 +1238,18 @@
         // HERO ENTRANCE (Direct Load, No Loading Screen)
         gsap.registerPlugin(ScrollTrigger);
         const tl = gsap.timeline();
-        
+
         tl.to('.hero-content h1 span i', { y: 0, duration: 1.2, stagger: 0.2, ease: "power4.out" })
-          .to('.hero-sub', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
-          .to('.hero-profile-container', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" }, "-=1")
-          .to('.hero-image-abstract', { opacity: 0.5, duration: 2, ease: "power2.out" }, "-=1.5");
+            .to('.hero-sub', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+            .to('.hero-profile-container', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" }, "-=1")
+            .to('.hero-image-abstract', { opacity: 0.5, duration: 2, ease: "power2.out" }, "-=1.5");
 
         // STORY TEXT REVEAL
         gsap.to('.story-text', {
             scrollTrigger: { trigger: '.story', start: "top 70%" },
-            color: "#ebebeb", duration: 2, ease: "power2.out"
+            color: "#ebebeb",
+            duration: 2,
+            ease: "power2.out"
         });
 
         // PROJECT CARDS PARALLAX (Desktop Only via matchMedia)
@@ -1279,18 +1270,24 @@
 
         // KINETIC TYPOGRAPHY (Skills)
         gsap.to('.track-left', {
-            xPercent: -20, ease: "none",
+            xPercent: -20,
+            ease: "none",
             scrollTrigger: { trigger: ".skills", start: "top bottom", end: "bottom top", scrub: 1 }
         });
         gsap.to('.track-right', {
-            xPercent: 20, ease: "none",
+            xPercent: 20,
+            ease: "none",
             scrollTrigger: { trigger: ".skills", start: "top bottom", end: "bottom top", scrub: 1 }
         });
 
         // ARCHIVE LIST STAGGER
         gsap.from('.archive-item', {
             scrollTrigger: { trigger: ".archive", start: "top 80%" },
-            y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out"
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
         });
 
         // PANDA ASSISTANT DYNAMIC LOGIC (Scroll Trigger Based)
@@ -1300,30 +1297,30 @@
         let isHopping = false;
 
         function updatePippin(text, left, top, face) {
-            if(window.innerWidth <= 768) return;
+            if (window.innerWidth <= 768) return;
 
             mascotContainer.style.left = left + '%';
             mascotContainer.style.top = top + '%';
-            
+
             if (face === 'right') {
                 pandaWrapper.classList.add('face-right');
             } else {
                 pandaWrapper.classList.remove('face-right');
             }
-            
+
             if (speechBubble.innerText !== text) {
                 speechBubble.style.opacity = '0.4';
                 speechBubble.style.transform = 'translateX(-50%) scale(0.85)';
-                
+
                 setTimeout(() => {
                     speechBubble.innerText = text;
                     speechBubble.style.opacity = '1';
                     speechBubble.style.transform = 'translateX(-50%) scale(1)';
                     speechBubble.classList.remove('pop-in');
-                    void speechBubble.offsetWidth; 
+                    void speechBubble.offsetWidth;
                     speechBubble.classList.add('pop-in');
                 }, 180);
-                
+
                 if (!isHopping) {
                     isHopping = true;
                     pandaWrapper.classList.add('hop');
@@ -1336,33 +1333,44 @@
         }
 
         ScrollTrigger.create({
-            trigger: "#story", start: "top center", end: "bottom center",
+            trigger: "#story",
+            start: "top center",
+            end: "bottom center",
             onEnter: () => updatePippin("Great story! Keep going!", 15, 50, 'right'),
             onEnterBack: () => updatePippin("Back to the story!", 15, 50, 'right'),
             onLeaveBack: () => updatePippin("Welcome! Let's explore.", 85, 80, 'left')
         });
         ScrollTrigger.create({
-            trigger: "#projects", start: "top center", end: "bottom center",
+            trigger: "#projects",
+            start: "top center",
+            end: "bottom center",
             onEnter: () => updatePippin("Check out these projects!", 85, 45, 'left'),
             onEnterBack: () => updatePippin("Check out these projects!", 85, 45, 'left')
         });
         ScrollTrigger.create({
-            trigger: "#skills", start: "top center", end: "bottom center",
+            trigger: "#skills",
+            start: "top center",
+            end: "bottom center",
             onEnter: () => updatePippin("So many skills!", 50, 85, 'left'),
             onEnterBack: () => updatePippin("So many skills!", 50, 85, 'left')
         });
         ScrollTrigger.create({
-            trigger: "#archive", start: "top center", end: "bottom center",
+            trigger: "#archive",
+            start: "top center",
+            end: "bottom center",
             onEnter: () => updatePippin("Ah, the Archives!", 20, 75, 'right'),
             onEnterBack: () => updatePippin("Ah, the Archives!", 20, 75, 'right')
         });
         ScrollTrigger.create({
-            trigger: "#tech-stack", start: "top center", end: "bottom center",
+            trigger: "#tech-stack",
+            start: "top center",
+            end: "bottom center",
             onEnter: () => updatePippin("My technical arsenal!", 70, 70, 'left'),
             onEnterBack: () => updatePippin("My technical arsenal!", 70, 70, 'left')
         });
         ScrollTrigger.create({
-            trigger: "footer", start: "top 80%",
+            trigger: "footer",
+            start: "top 80%",
             onEnter: () => updatePippin("Let's build something! 🤝", 50, 60, 'left')
         });
 
@@ -1371,14 +1379,12 @@
         const showAllBtn = document.getElementById('showAllSkillsBtn');
         const halfSkillsCount = Math.ceil(skillBadges.length / 2);
 
-        // Hide the bottom half of the skills initially
         skillBadges.forEach((badge, index) => {
             if (index >= halfSkillsCount) {
                 badge.classList.add('hidden');
             }
         });
 
-        // Toggle visibility on button click
         showAllBtn.addEventListener('click', () => {
             const isShowingAll = showAllBtn.textContent === 'SHOW LESS';
 
@@ -1392,15 +1398,13 @@
                 }
             });
 
-            // Update button text and refresh GSAP ScrollTrigger to recalculate page height
             if (isShowingAll) {
                 showAllBtn.textContent = 'SHOW ALL';
             } else {
                 showAllBtn.textContent = 'SHOW LESS';
             }
-            
-            // Refreshes parallax/animations so they don't break when the page height changes
-            ScrollTrigger.refresh(); 
+
+            ScrollTrigger.refresh();
         });
     </script>
 </body>

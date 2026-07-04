@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System | M. Abdullah Wali</title>
+    
+    <link rel="icon" type="image/png" href="../../favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE VARIABLES & RESET --- */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ebebeb;
+            --text-dim: #777777;
+            --accent: #1a1a1a;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
+        /* --- CUSTOM SCROLLBARS --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        /* --- TACTILE FILM NOISE --- */
+        .film-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 12px; height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: fixed;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.active {
+            transform: translate(-50%, -50%) scale(5);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0) 100%);
+        }
+        .nav-logo, .nav-links a {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-links a {
+            border-bottom: 1px solid rgba(235, 235, 235, 0.3);
+            padding-bottom: 2px;
+        }
+        .nav-links a:hover {
+            opacity: 0.7;
+            border-bottom: 1px solid var(--text-main);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 20vh 4rem 10vh 4rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .hero-image-abstract {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vw; height: 50vh;
+            background: radial-gradient(circle at center, #111 0%, #050505 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0;
+            z-index: 1;
+        }
+        .hero-content {
+            z-index: 2;
+            max-width: 1000px;
+        }
+        .hero-content h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 6vw, 7rem);
+            font-weight: 400;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content h1 span {
+            display: block;
+            overflow: hidden;
+        }
+        .hero-content h1 span i {
+            display: inline-block;
+            font-style: normal;
+            transform: translateY(100%);
+        }
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .tech-badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .tech-badge {
+            background: var(--accent);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- PROJECT CONTENT --- */
+        .project-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 4rem 15vh 4rem;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .project-section {
+            margin-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .project-section h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .project-section h3 {
+            font-family: var(--font-sans);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .project-section p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .project-section ul, .project-section ol {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .project-section li {
+            margin-bottom: 0.8rem;
+        }
+
+        .project-section li strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* --- CODE BLOCKS --- */
+        pre {
+            background: var(--accent);
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #a8a8a8;
+        }
+        .inline-code {
+            background: var(--accent);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- CALL TO ACTION BUTTON --- */
+        .btn-action {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background-color: var(--text-main); 
+            color: var(--bg-color); 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-family: var(--font-sans);
+            font-weight: 600; 
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-4px); 
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15); 
+            background-color: #ffffff; 
+        }
+
+        /* RESPONSIVENESS */
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; }
+            .hero { padding: 150px 2rem 4rem 2rem; }
+            .project-body { padding: 0 2rem 10vh 2rem; }
+            .cursor { display: none !important; }
+            * { cursor: auto !important; }
+            
+            /* -- New Mobile Button Fixes -- */
+            .btn-action {
+                width: 100%; 
+                max-width: 280px; /* Keeps them a uniform, standard size */
+                padding: 1rem; /* Reduces side padding to prevent wrapping */
+                font-size: 0.8rem; /* Slightly scales down the text */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="film-noise"></div>
+    <div class="cursor"></div>
+
+    <nav>
+        <div class="nav-logo">M. Abdullah Wali</div>
+        <div class="nav-links">
+            <a href="../../index.html#projects" class="hover-target">&larr; Return to Portfolio</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-image-abstract"></div>
+        <div class="hero-content">
+            <h1>
+                <span><i>School Management</i></span>
+                <span><i>System.</i></span>
+            </h1>
+            <div class="hero-sub">
+                <p>A comprehensive and modern desktop-based School Management System designed to streamline academic, administrative, financial, and operational workflows for educational institutions.</p>
+            </div>
+            <div class="tech-badges">
+                <div class="tech-badge hover-target">Desktop Application</div>
+                <div class="tech-badge hover-target">Intelligent Timetables</div>
+                <div class="tech-badge hover-target">Financial Management</div>
+                <div class="tech-badge hover-target">Data Analytics</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="project-body">
+        
+        <section class="project-section scroll-fade">
+            <h2>About the Project</h2>
+            <p>This application provides an all-in-one solution for managing campuses, classes, students, teachers, attendance, timetables, payroll, inventory, fee collection, promotions, and data exports with an intuitive and efficient interface.</p>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>System Features</h2>
+            <ul>
+                <li><strong>Campus & Class Management:</strong> Multi-campus support, class and section management, bulk class creation, subject assignment, and campus-class linking.</li>
+                <li><strong>Student & Teacher Management:</strong> Bulk student import via CSV, individual registration, profile editing and search, class-wise organization, teacher registrations, subject assignments, and multi-campus teacher support.</li>
+                <li><strong>Intelligent Timetable System:</strong> Automated timetable generation, conflict detection system, manual timetable editing, daily schedule replication, and comprehensive teacher and class timetable views.</li>
+                <li><strong>Attendance & Leave:</strong> Student and teacher attendance tracking systems, detailed attendance reports and analytics, and an integrated leave application and approval workflow.</li>
+                <li><strong>Fee & Payroll Management:</strong> Monthly fee generation, custom fee overrides, payment tracking, teacher salary processing, payroll generation, and financial record exports.</li>
+                <li><strong>Inventory & Promotions:</strong> Location-based inventory tracking, stock monitoring, low stock and damage alerts, item condition management, automated class promotion planning, graduation handling, and failed student retention support.</li>
+                <li><strong>Reports & Exports:</strong> Comprehensive functionality to export data in CSV/Excel formats for attendance reports, fee and payroll records, timetable exports, and inventory reports.</li>
+            </ul>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>System Highlights</h2>
+            <ul>
+                <li><strong>Automation:</strong> Intelligent automation features designed to streamline operations.</li>
+                <li><strong>Architecture:</strong> A highly scalable architecture built to support multiple campuses.</li>
+                <li><strong>Data Handling:</strong> Bulk import and export support alongside real-time statistics and analytics.</li>
+                <li><strong>User Experience:</strong> A user-friendly interface backed by an advanced conflict prevention system.</li>
+            </ul>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Download & Installation</h2>
+            <p>You can download the compiled .exe file directly from the Releases Section or by using the direct download link below.</p>
+            
+            <h3>Direct Download Link:</h3>
+            <pre class="hover-target"><code>https://mega.nz/file/mD5lFDJT#D5iE2q0oHHIEVzt_i9trxIP3hdy5wjqQqDoRFy_dmik</code></pre>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Important Notice & License</h2>
+            <p>This project is currently <strong>not open source</strong>. The repository is provided for application releases, documentation, and demonstration purposes only.</p>
+            <ul>
+                <li>The executable application (<span class="inline-code">.exe</span>) may be distributed for testing or authorized usage, but the source code remains private and proprietary.</li>
+                <li>Unauthorized copying, modification, reverse engineering, redistribution, or resale of this software or its source code is strictly prohibited.</li>
+            </ul>
+            <p style="margin-top: 2rem;"><em>Copyright &copy; 2026 Muhammad Abdullah Wali. All rights reserved.</em></p>
+        </section>
+
+        <section class="project-section scroll-fade" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-top: 4rem;">
+    <a href="https://mega.nz/file/mD5lFDJT#D5iE2q0oHHIEVzt_i9trxIP3hdy5wjqQqDoRFy_dmik" target="_blank" rel="noopener noreferrer" class="btn-action hover-target">Download Application</a>
+    
+    <!-- New GitHub Button -->
+    <a href="https://github.com/AbdullahWali007/School-Management-System" target="_blank" rel="noopener noreferrer" class="btn-action hover-target" style="background-color: transparent; border: 1px solid var(--text-main); color: var(--text-main);">View on GitHub</a>
+</section>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <script>
+        // SMOOTH SCROLL (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // CUSTOM CURSOR
+        const cursor = document.querySelector('.cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // HERO ENTRANCE ANIMATION
+        const tl = gsap.timeline();
+        
+        tl.to('.hero-content h1 span i', { y: 0, duration: 1.2, stagger: 0.2, ease: "power4.out", delay: 0.2 })
+          .to('.hero-sub', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+          .to('.tech-badges', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.9")
+          .to('.hero-image-abstract', { opacity: 0.4, duration: 2, ease: "power2.out" }, "-=1.5");
+
+        // SCROLL REVEAL FOR CONTENT SECTIONS
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const sections = gsap.utils.toArray('.scroll-fade');
+        sections.forEach(section => {
+            gsap.to(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                },
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
