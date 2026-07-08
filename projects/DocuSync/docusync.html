@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuSync AI | M. Abdullah Wali</title>
+    
+    <link rel="icon" type="image/png" href="../../favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE VARIABLES & RESET --- */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ebebeb;
+            --text-dim: #777777;
+            --accent: #1a1a1a;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
+        /* --- CUSTOM SCROLLBARS --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        /* --- TACTILE FILM NOISE --- */
+        .film-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 12px; height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: fixed;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.active {
+            transform: translate(-50%, -50%) scale(5);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0) 100%);
+        }
+        .nav-logo, .nav-links a {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-links a {
+            border-bottom: 1px solid rgba(235, 235, 235, 0.3);
+            padding-bottom: 2px;
+        }
+        .nav-links a:hover {
+            opacity: 0.7;
+            border-bottom: 1px solid var(--text-main);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 20vh 4rem 10vh 4rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .hero-image-abstract {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vw; height: 50vh;
+            background: radial-gradient(circle at center, #150a21 0%, #050505 70%); /* Tweaked gradient slightly to match Gemini/DocuSync vibe */
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0;
+            z-index: 1;
+        }
+        .hero-content {
+            z-index: 2;
+            max-width: 1000px;
+        }
+        .hero-content h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 6vw, 7rem);
+            font-weight: 400;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content h1 span {
+            display: block;
+            overflow: hidden;
+        }
+        .hero-content h1 span i {
+            display: inline-block;
+            font-style: normal;
+            transform: translateY(100%);
+        }
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .tech-badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .tech-badge {
+            background: var(--accent);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- PROJECT CONTENT --- */
+        .project-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 4rem 15vh 4rem;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .project-section {
+            margin-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .project-section h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .project-section h3 {
+            font-family: var(--font-sans);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .project-section p {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .project-section ul, .project-section ol {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .project-section li {
+            margin-bottom: 0.8rem;
+        }
+
+        .project-section li strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .project-section blockquote {
+            border-left: 3px solid rgba(255,255,255,0.2);
+            padding-left: 1.5rem;
+            font-style: italic;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- GLASSMORPHISM DATA TABLE --- */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 2rem 0;
+            background: var(--accent);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .data-table {
+            width: 100%;
+            min-width: 600px; /* Forces scroll on smaller screens */
+            border-collapse: collapse;
+        }
+        .data-table th, .data-table td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .data-table tr:last-child th,
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        .data-table th {
+            background: rgba(255,255,255,0.02);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            color: var(--text-main);
+        }
+        .data-table td {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+        .data-table td strong {
+            color: var(--text-main);
+        }
+
+        /* --- CODE BLOCKS --- */
+        pre {
+            background: var(--accent);
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #a8a8a8;
+        }
+        .inline-code {
+            background: var(--accent);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- MERMAID DIAGRAM WRAPPER --- */
+        .mermaid-wrapper {
+            background: var(--accent);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        /* --- GITHUB BUTTON --- */
+        .btn-github {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background-color: var(--text-main); 
+            color: var(--bg-color); 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-family: var(--font-sans);
+            font-weight: 600; 
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+        }
+
+        .btn-github:hover {
+            transform: translateY(-4px); 
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15); 
+            background-color: #ffffff; 
+        }
+
+        .footer-credits {
+            text-align: center;
+            margin-top: 4rem;
+            font-family: var(--font-serif);
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        /* RESPONSIVENESS */
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; }
+            .hero { padding: 150px 2rem 4rem 2rem; }
+            .project-body { padding: 0 2rem 10vh 2rem; }
+            .cursor { display: none !important; }
+            * { cursor: auto !important; }
+            .data-table th, .data-table td { padding: 0.8rem; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="film-noise"></div>
+    <div class="cursor"></div>
+
+    <nav>
+        <div class="nav-logo">M. Abdullah Wali</div>
+        <div class="nav-links">
+            <a href="../../index.html#projects" class="hover-target">&larr; Return to Portfolio</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-image-abstract"></div>
+        <div class="hero-content">
+            <h1>
+                <span><i>DocuSync</i></span>
+                <span><i>AI.</i></span>
+            </h1>
+            <div class="hero-sub">
+                <p><strong>DocuSync AI</strong> is an enterprise-grade, multi-agent Retrieval-Augmented Generation (RAG) system. Unlike standard RAG pipelines that blindly retrieve text, DocuSync utilizes a <strong>4-Agent Orchestration Flow</strong> to read a user's environment profile (OS, Framework, Language), dynamically rewrite search queries, strictly filter vector databases, and synthesize highly contextual answers with zero hallucination.</p>
+            </div>
+            <div class="tech-badges">
+                <div class="tech-badge hover-target">Python 3.10+</div>
+                <div class="tech-badge hover-target">FastAPI</div>
+                <div class="tech-badge hover-target">LlamaIndex</div>
+                <div class="tech-badge hover-target">Qdrant</div>
+                <div class="tech-badge hover-target">Gemini 2.5 Flash</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="project-body">
+        
+        <section class="project-section scroll-fade">
+            <h2>Automated Evaluation Metrics</h2>
+            <p>This system was mathematically evaluated using the <span class="inline-code">ragas</span> framework and LangSmith against a ground-truth dataset, proving its enterprise readiness and guardrail efficacy.</p>
+            <ul>
+                <li><strong>Faithfulness (Hallucination Guardrail): 97.06%</strong><br><em>(System successfully refuses to invent code when documentation is missing for a specific OS/Framework).</em></li>
+                <li><strong>Context Precision: 100% (On Valid Contexts)</strong><br><em>(Cross-Encoder reranking ensures the top returned node is the exact match for the user's environment).</em></li>
+                <li><strong>Observability:</strong> 100% of pipeline executions, token usage, and cross-encoder latencies are traced and monitored via <strong>LangSmith</strong>.</li>
+            </ul>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>System Architecture</h2>
+            <div class="mermaid-wrapper hover-target">
+                <div class="mermaid">
+                    graph TD
+                        subgraph Frontend [UI Layer]
+                            UI[Web Interface]
+                            Profile[User Persona Profile]
+                        end
+
+                        subgraph API [FastAPI Backend]
+                            Router[API Router]
+                        end
+
+                        subgraph Agentic_Flow [4-Agent Orchestration]
+                            A1[Agent A: Context Extractor]
+                            A2[Agent B: Query Rewriter & Retriever]
+                            A3[Agent C: Cross-Encoder Reranker]
+                            A4[Agent D: Contextual Synthesizer]
+                        end
+
+                        subgraph Data_Layer [Vector Infrastructure]
+                            Parser[Context-Aware Chunking]
+                            Embed[BAAI/bge-large-en-v1.5]
+                            DB[(Qdrant Vector Database)]
+                        end
+
+                        %% Ingestion Flow
+                        Docs((Raw Docs)) --> Parser
+                        Parser -->|Intelligent Metadata Tagging| Embed
+                        Embed --> DB
+
+                        %% Query Flow
+                        UI -->|Raw Query| Router
+                        Profile -->|JSON Context| Router
+                        Router --> A1
+                        
+                        A1 -->|Structured Constraints| A2
+                        A2 -->|Optimized Query + Strict Filters| DB
+                        DB -->|Top 20 Nodes| A3
+                        A3 -->|Top 5 High-Precision Nodes| A4
+                        
+                        A4 -->|Gemini 2.5 Synthesis| Router
+                        Router -->|Final Answer| UI
+
+                        %% Styling
+                        classDef primary fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+                        classDef secondary fill:#1e293b,stroke:#a78bfa,stroke-width:2px,color:#f8fafc;
+                        
+                        class A1,A2,A3,A4 primary;
+                        class DB,Embed,Parser secondary;
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Core Features</h2>
+            <ol>
+                <li><strong>Intelligent Ingestion (<span class="inline-code">document_parser.py</span>):</strong> Deep content analysis that scans markdown headers and code blocks to dynamically assign <span class="inline-code">os</span>, <span class="inline-code">language</span>, and <span class="inline-code">framework</span> metadata tags to vector chunks before embedding.</li>
+                <li><strong>Dynamic Metadata Filtering:</strong> Prevents context contamination. A macOS/React developer will never be served Windows/Python installation instructions.</li>
+                <li><strong>Cross-Encoder Reranking:</strong> Utilizes HuggingFace <span class="inline-code">ms-marco-MiniLM-L-6-v2</span> to mathematically score and rerank retrieved nodes, boosting precision by filtering out semantically similar but contextually irrelevant chunks.</li>
+                <li><strong>Asynchronous Backend:</strong> Built on FastAPI with <span class="inline-code">asyncio.to_thread</span> execution, ensuring the API remains highly responsive during computationally heavy ML embedding and reranking tasks.</li>
+            </ol>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Tech Stack</h2>
+            <ul>
+                <li><strong>LLM:</strong> Google Gemini 2.5 Flash / (You can also switch to ollama if Gemini API is not feasible)</li>
+                <li><strong>Orchestration:</strong> LlamaIndex</li>
+                <li><strong>Vector Database:</strong> Qdrant (Local Backend)</li>
+                <li><strong>Embeddings:</strong> HuggingFace (<span class="inline-code">BAAI/bge-large-en-v1.5</span>)</li>
+                <li><strong>Reranker:</strong> Sentence Transformers (<span class="inline-code">cross-encoder/ms-marco-MiniLM-L-6-v2</span>)</li>
+                <li><strong>Backend:</strong> FastAPI, Uvicorn, Pydantic</li>
+                <li><strong>MLOps / Evaluation:</strong> LangSmith, Ragas, Datasets</li>
+                <li><strong>Frontend:</strong> Vanilla HTML/CSS/JS (Glassmorphism UI)</li>
+            </ul>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Quick Start</h2>
+            
+            <h3>1. Prerequisites</h3>
+            <p>Ensure you have Python 3.10+ installed. Clone the repository and install the dependencies.</p>
+            <pre class="hover-target"><code>git clone https://github.com/AbdullahWali007/DocuSync.git
+cd DocuSync
+pip install -r requirements.txt</code></pre>
+
+            <h3>2. Environment Variables</h3>
+            <p>Create a <span class="inline-code">.env</span> file in the root directory:</p>
+            <pre class="hover-target"><code>GEMINI_API_KEY="your_gemini_key"
+LANGCHAIN_API_KEY="your_langsmith_key"   # Only required for Phase 4 tracing
+LANGCHAIN_PROJECT="DocuSync_AI_Production"</code></pre>
+
+            <h3>3. Initialize the Vector Database (Phase 1)</h3>
+            <p>Run the ingestion script to parse your documents, generate embeddings, and populate Qdrant.</p>
+            <pre class="hover-target"><code>python ingest.py</code></pre>
+            <p><strong>Note:</strong> This single command internally imports and uses the supporting modules <span class="inline-code">config.py</span>, <span class="inline-code">document_parser.py</span>, and <span class="inline-code">qdrant_setup.py</span> – you do not need to run them manually.</p>
+
+            <h3>4. Start the Application (Phase 5)</h3>
+            <p>Spin up the FastAPI backend server:</p>
+            <pre class="hover-target"><code>python phase5_api.py</code></pre>
+            <p>Once the server is running on <span class="inline-code">http://localhost:8000</span>, open <span class="inline-code">index.html</span> in your web browser to interact with the Multimodal UI.</p>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Pipeline Execution Order (Detailed)</h2>
+            <p>For those who wish to run the optional evaluation or tracing phases, below is the full recommended sequence:</p>
+            
+            <div class="table-responsive">
+                <table class="data-table">
+                    <tr>
+                        <th>Step</th>
+                        <th>File</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1</strong></td>
+                        <td><span class="inline-code">ingest.py</span></td>
+                        <td><strong>(Mandatory)</strong> Loads, chunks, enriches metadata, embeds, and stores documents in Qdrant.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2</strong> <em>(Optional)</em></td>
+                        <td><span class="inline-code">phase2_baseline.py</span></td>
+                        <td>Runs a set of benchmark queries against a simple Python-only retriever; exports results to <span class="inline-code">phase2_control_state.json</span>. Useful for before/after comparisons.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3</strong> <em>(Optional)</em></td>
+                        <td><span class="inline-code">phase3_orchestration.py</span></td>
+                        <td>Can be run directly (has <span class="inline-code">__main__</span>) to test a single query against the 4‑Agent pipeline without the API. Mainly used for development.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4</strong> <em>(Optional)</em></td>
+                        <td><span class="inline-code">phase4_tracing.py</span></td>
+                        <td>Wraps the orchestrator with LangSmith <span class="inline-code">@traceable</span> decorators and executes a sample query. Requires <span class="inline-code">LANGCHAIN_API_KEY</span>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5</strong> <em>(Optional)</em></td>
+                        <td><span class="inline-code">phase4_ragas_eval.py</span></td>
+                        <td>Runs the Ragas evaluation suite against a ground‑truth dataset; outputs a CSV with per‑sample metrics (faithfulness, context precision, answer relevancy).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6</strong></td>
+                        <td><span class="inline-code">phase5_api.py</span></td>
+                        <td><strong>(Production)</strong> Starts the FastAPI server. All other phases are integrated; this is the final service entrypoint.</td>
+                    </tr>
+                </table>
+            </div>
+
+            <blockquote>
+                <strong>Important:</strong> The supporting library files (<span class="inline-code">config.py</span>, <span class="inline-code">document_parser.py</span>, <span class="inline-code">qdrant_setup.py</span>) are <strong>not</strong> executed directly; they are imported by the scripts above.
+            </blockquote>
+        </section>
+
+        <section class="project-section scroll-fade">
+            <h2>Evaluation & Observability (Phases 4)</h2>
+            <p>To run the automated evaluation and tracing:</p>
+            <pre class="hover-target"><code># Trace a query with LangSmith (ensure LANGCHAIN_API_KEY is set)
+python phase4_tracing.py
+
+# Evaluate the pipeline with Ragas on a ground-truth dataset
+python phase4_ragas_eval.py</code></pre>
+            <p>Results are saved locally (<span class="inline-code">phase4_ragas_metrics.csv</span>) and visible in your LangSmith dashboard.</p>
+        </section>
+
+        <section class="project-section scroll-fade" style="text-align: center; margin-top: 4rem;">
+            <a href="https://github.com/AbdullahWali007/DocuSync" target="_blank" rel="noopener noreferrer" class="btn-github hover-target">View on GitHub</a>
+            <p class="footer-credits">Engineered by M.Abdullah Wali.</p>
+        </section>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+
+    <script>
+        // SMOOTH SCROLL (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // CUSTOM CURSOR
+        const cursor = document.querySelector('.cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // HERO ENTRANCE ANIMATION
+        const tl = gsap.timeline();
+        
+        tl.to('.hero-content h1 span i', { y: 0, duration: 1.2, stagger: 0.2, ease: "power4.out", delay: 0.2 })
+          .to('.hero-sub', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+          .to('.tech-badges', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.9")
+          .to('.hero-image-abstract', { opacity: 0.4, duration: 2, ease: "power2.out" }, "-=1.5");
+
+        // SCROLL REVEAL FOR CONTENT SECTIONS
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const sections = gsap.utils.toArray('.scroll-fade');
+        sections.forEach(section => {
+            gsap.to(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                },
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
